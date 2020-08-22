@@ -8,15 +8,15 @@
 //      some languages require you to know the number of items in an array & you can't change it (static)
 //      if you guess wrong you need to copy into new array
 //          (which would be an O(n) operation because cost increases with a larger array)
-
-// deleting is also O(n) operation because if you were to delete the first item in the array, every single other
-// item would need to be shifted
+//      deleting is also O(n) operation because if you were to delete the first item in the array, every single other
+//      item would need to be shifted
 
 // When these issues are relevant a link list is a better option
 
 
 //custom array prototype, treating arrays as if they're static
 // useful to see how memory handles arrays
+// ...obviously not useful otherwise
 class CustomArrayClass {
 
     constructor(initialLength) {
@@ -26,6 +26,7 @@ class CustomArrayClass {
         this.count = 0;
     }
 
+    //o(n)
     print () {
         for (let i = 0; i <= this.count - 1; i ++) {
             console.log(this.items[i]);
@@ -74,7 +75,16 @@ class CustomArrayClass {
         return result
     }
 
+    getMax() {
+        let max = null;
+        this.items.forEach((item) => {
+            if (item > max) {
+                max = item
+            }
+        })
 
+        return max;
+    }
 }
 
 let numbers = new CustomArrayClass(5);
@@ -85,5 +95,6 @@ numbers.insert(40);
 numbers.insert(50);
 // numbers.removeAt(4);
 console.log(numbers.indexOf(30));
+console.log(numbers.getMax());
 // numbers.print();
 
