@@ -5,12 +5,13 @@
 // a series of nodes, each with two values:
 // 1) the value
 // 2) the address of the next node
-// first node is the HEAD, last node is the TAIL
+// head node is the first, last node is the TAIL
 /**
- * Originally memory devoted to an array ahead of runtime could NOT be used again
- * Linked lists soved this issue
+ * In many languages memory devoted to an array ahead of runtime could NOT be used again
+ * Linked lists solved for this issue
  *
  */
+
 //
 /**
  * time complexity of various ops:
@@ -29,8 +30,8 @@
  *
  * Delete:
  *  Beginning: O(1)
- *      [aa~head]--[bb]--[cc]--[dd]
- *      [aa] {break link} [bb~head]--[cc]--[dd]
+ *      [aa~first]--[bb]--[cc]--[dd]
+ *      [aa] {break link} [bb~first]--[cc]--[dd]
  *  End: O(n) (need to traverse all the way to the end & find second-to-last item)
  *      [aa]--[bb]--[cc]--[dd~end]
  *      [aa]--[bb]--[cc] {break-link} [dd]
@@ -51,113 +52,148 @@ class LinkedListNode {
 
 class LinkedList {
     constructor() {
-        this.head = null;
-        this.tail = null;
+        this.first = null;
+        this.last = null;
+        this._size = 0;
     }
 
     print() {
-        let current = this.head;
+        let current = this.first;
         while (current !== null) {
             console.log(current.data);
             current = current.next;
         }
     }
 
-    //addLast
-    addLast (data) {
-        const newNode = new LinkedListNode(data);
-        if (this.head === null) {
-            this.head = newNode;
-        } else {
-            let current = this.head;
-            while (current.next !== null) {
-                current = current.next;
-            }
+    isEmpty() {
+        return this.first === null;
+    }
 
-            current.next = newNode;
+    //addLast
+    addLast(data) {
+        const newNode = new LinkedListNode(data);
+        if (this.isEmpty()) {
+            this.first = newNode;
+            this.last = newNode;
+        } else {
+            this.last.next = newNode;
+            this.last = newNode;
         }
+
+        this._size++;
     }
 
     //addFirst
-    addFirst (data) {
+    addFirst(data) {
         const newNode = new LinkedListNode(data);
 
-        if (this.head === null) {
-            this.head = newNode;
+        if (this.isEmpty()) {
+            this.first = newNode;
+            this.last = newNode;
         } else {
-            newNode.next = this.head;
-            this.head = newNode;
+            newNode.next = this.first;
+            this.first = newNode;
         }
+
+        this._size++;
     }
 
-    indexOf (dataToFind) {
-        let index = -1;
-        let current = this.head;
+    indexOf(dataToFind) {
+        let index = 0;
+        let current = this.first;
         while (current !== null) {
-            index += 1;
             if (current.data === dataToFind) {
-                console.log('index of ', dataToFind, ' is: ', index);
-
                 return index;
+            }
+            current = current.next;
+            index += 1;
+        }
+
+        return -1;
+    }
+
+    contains(dataToFind) {
+        return this.indexOf(dataToFind) !== -1;
+    }
+
+    deleteFirst() {
+        console.log('---delete first---')
+        if (this.isEmpty()) {
+            throw new Error('Empty list');
+        }
+
+        if (this.first === this.last) {
+            this.first = null;
+            this.last = null;
+        } else {
+            const second = this.first.next;
+            this.first.next = null;
+            this.first = second;
+        }
+
+        this._size--;
+    }
+
+    //O(n)
+    deleteLast() {
+        if (this.isEmpty()) {
+            throw new Error('Empty list');
+        }
+        if (this.first === this.last) {
+            this.first = null;
+            this.last = null;
+            this._size = 0;
+
+            return;
+        }
+
+        let previous = this.getPrevious(this.last);
+        this.last = previous;
+        this.last.next = null;
+
+        this._size--;
+    }
+
+    //O(n)
+    getPrevious(node) {
+        let current = this.first;
+        while (current !== null) {
+            if (current.next === node) {
+                return current;
             }
             current = current.next;
         }
 
-        console.log('not in list');
-
+        return null;
     }
 
-    //deleteFirst
-    deleteFirst() {
-        console.log('---delete first---')
-
-        const newFirst = this.head.next;
-        this.head.next = null;
-        this.head = newFirst;
+    //O(1)
+    get size() {
+        return this._size;
     }
-
-    //deleteLast
-    deleteLast() {
-        console.log('---delete last---')
-
-
-    }
-
-    //contains
-    //indexOf
 }
 
 const list = new LinkedList();
-list.addFirst(1);
-list.addLast(2);
-list.addLast('taco');
-list.addLast(4);
 list.addLast(5);
+list.addLast(6);
+list.addLast(7);
+list.addLast(8);
+// list.indexOf(9);
+// console.log(list.contains(9));
 
+console.log(list.size);
 
-list.indexOf('taco');
-list.indexOf(99);
+// list.addFirst(1);
+// list.addLast(2);
+// list.addLast('taco');
+// list.addLast(4);
+// list.addLast(5);
 
-list.addFirst('fish');
-list.indexOf('fish');
-// list.print()
+// list.contains(9);
+// list.size()
 
-// list.deleteFirst();
+// list.indexOf('taco');
+// list.indexOf(99);
+// list.addFirst('fish');
+// list.indexOf('fish');
 
-// list.print()
-
-
-
-// list.addFirst(25);
-
-
-
-// const head = new LinkedListNode(12);
-// head.next = new LinkedListNode(33);
-// head.next.next = new LinkedListNode(55);
-//
-// let current = head;
-// while (current !== null) {
-//     console.log(current.data);
-//     current = current.next;
-// }
