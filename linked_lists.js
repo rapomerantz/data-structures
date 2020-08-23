@@ -40,6 +40,44 @@
  *      [aa]--[bb]--[cc]--[dd]--[ee]
  *      [aa]--[bb] {break-link} [cc] {break-link} [dd]--[ee]
  *      [aa]--[bb]--NEW LINK--[dd]--[ee]
+ *
+ *
+ *
+ *
+ *  Arrays vs. Linked Lists
+ *  Every problem has different solutions & every solution has different tradeoffs
+ *
+ *  SPACE:
+ *  (static) Arrays have a fixed size -- they take up less space in memory than linked lists because they don't require
+ *  an 'address' of the next array item.
+ *  SO -> use an array when you know the number of items you want to store
+ *
+ *  PERFORMANCE:
+ *  Lookup          Array       Linked List
+ *      By Index    O(1)        O(n)
+ *      By Value    O(n)        O(n)
+ *
+ *  Insert
+ *   Beginning/End   O(n)       O(1)
+ *      Middle      O(n)        O(n)
+ *
+ *  Delete:
+ *      Beginning   O(n)        O(1)
+ *      Middle      O(n)        O(n)
+ *      End         O(n)        O(n)
+ *
+ *
+ * ---------------------------------------
+ * Singly vs. Doubly Link list
+ *  SINGLY is as described above -> each node has a reference to it's next node [a]->[b]
+ *  DOUBLY has a reference to its previous node as well [a]<->[b]
+ *  CIRCULAR Linked List has a referenc to the first node in the last node
+ *
+ *  Doubly list deletes from the end at O(1), not O(n) because it doesn't have to traverse the entire array
+ *
+ *
+ *
+ *
  */
 
 
@@ -171,29 +209,82 @@ class LinkedList {
     get size() {
         return this._size;
     }
+
+    toArray() {
+        let array = [];
+        let current = this.first;
+        while (current !== null) {
+            array.push(current.data);
+            current = current.next;
+        }
+
+        return array;
+    }
+
+    reverse() {
+        //[10 -> 20 -> 30 -> 40]
+        // p     c      n
+        //       p      c     n
+        //              p     c      n
+        //                    p     c      n
+        if (!this.isEmpty()) {
+            let previous = this.first;
+            let current = this.first.next;
+
+            while (current !== null) {
+                let next = current.next;
+                current.next = previous;
+                previous = current;
+                current = next;
+            }
+
+            this.last = this.first;
+            this.last.next = null;
+            this.first = previous;
+        }
+    }
+
+    getKthFromTheEnd(k = 3) {
+        if (this.isEmpty()) {
+            throw new Error('List is empty')
+        }
+        if (k < 0 || k > this.size) {
+            throw new Error('Input must be greater than 0 & shorter than list')
+        }
+
+        let firstPointer = this.first;
+        let secondPointer = this.first;
+        let distance = 0;
+        while (distance < k) {
+            firstPointer = firstPointer.next;
+            distance ++;
+        }
+        while (firstPointer.next !== null) {
+            secondPointer = secondPointer.next;
+            firstPointer = firstPointer.next;
+        }
+
+        return secondPointer;
+    }
 }
 
 const list = new LinkedList();
-list.addLast(5);
-list.addLast(6);
-list.addLast(7);
-list.addLast(8);
-// list.indexOf(9);
-// console.log(list.contains(9));
+// list.addLast(10);
+// list.addLast(20);
+// list.addLast(30);
+// list.addLast(40);
+// list.addLast(50);
 
-console.log(list.size);
+list.print();
 
-// list.addFirst(1);
-// list.addLast(2);
-// list.addLast('taco');
-// list.addLast(4);
-// list.addLast(5);
+console.log('-------')
 
-// list.contains(9);
-// list.size()
+console.log(list.getKthFromTheEnd(3));
+console.log(list.getKthFromTheEnd(2));
+console.log(list.getKthFromTheEnd(1));
+console.log(list.getKthFromTheEnd(0));
+console.log(list.getKthFromTheEnd(-1));
 
-// list.indexOf('taco');
-// list.indexOf(99);
-// list.addFirst('fish');
-// list.indexOf('fish');
+// console.log(list.getKthFromTheEnd(40));
+// console.log(list.getKthFromTheEnd(-1));
 
