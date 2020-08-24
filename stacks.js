@@ -76,7 +76,7 @@ function reverseString(string) {
 // reverseString('taco');
 // reverseString(null);
 
-class BalancedExpressionChecker {
+class Expression {
     constructor(expression) {
         this.expressionArray = expression.split('');
         this.stack = new Stack();
@@ -95,29 +95,35 @@ class BalancedExpressionChecker {
             openingBrackets.push(this.bracketPairs[key]);
         })
 
-        console.log(openingBrackets);
         return openingBrackets;
     }
 
-    isBalanced() {
-        let result = true;
-        for (let i = 0; i < this.expressionArray.length - 1; i++) {
-            let character = this.expressionArray[i];
-            if (this.openingBrackets.includes(character)) {
-                this.stack.push(character);
-            } else if (this.bracketPairs[character]) {
-                let lastBracket = this.stack.pop();
-                if (this.bracketPairs[lastBracket] !== character) {
-                    result = false;
-                    break;
-                }
+    isOpeningCharacter(character) {
+        return character === '(' || character === '{' || character === '[' || character === '<'
+    }
 
+    isClosingCharacter(character) {
+        return character === ')' || character === '}' || character === ']' || character === '>'
+    }
+
+    isBalanced() {
+        for (let i = 0; i < this.expressionArray.length; i++) {
+            let character = this.expressionArray[i];
+            if (this.isOpeningCharacter(character)) {
+                this.stack.push(character);
+            }
+
+            if (this.isClosingCharacter(character)) {
+                if (this.stack.isEmpty()) {
+                    return false;
+                }
+                this.stack.pop();
             }
         }
 
-        return result;
+        return this.stack.isEmpty();
     }
 }
 
-let checker = new BalancedExpressionChecker('{<abcdef>}');
-console.log(checker.isBalanced());
+let expression = new Expression('');
+console.log(expression.isBalanced());
