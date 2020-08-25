@@ -287,4 +287,3 @@ console.log(list.getKthFromTheEnd(-1));
 
 // console.log(list.getKthFromTheEnd(40));
 // console.log(list.getKthFromTheEnd(-1));
-

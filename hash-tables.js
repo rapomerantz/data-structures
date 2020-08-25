@@ -1,3 +1,7 @@
+import {LinkedList} from "./linked_lists";
+
+console.log(LinkedList);
+
 /**
  * aka dictionaries
  * primary strength is super fast lookups
@@ -61,5 +65,62 @@ function findFirstNonRepeatedCharacter(string) {
 
     return result;
 }
+// console.log(findFirstNonRepeatedCharacter('taco meat'));
 
-console.log(findFirstNonRepeatedCharacter('taco meat'));
+/**
+ * Hash functions
+ * Map a key to an index holding the required data
+ * If bucket is empty, put the data there
+ * If bucket is full, return the data
+ *
+ * Also also handles converting the key to a numerical index that is mathmatically related to the key
+ *      For key of type number, uses % operator to find a value that will fit in memory
+ *      For key of type string, uses encoding followed by % operator
+ *
+ * Collisions
+ *
+ * Chaining
+ */
+
+function exampleHashFunction (str, max) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = (hash << 5) + hash + str.charCodeAt(i);
+        hash = hash & hash;
+        hash = Math.abs(hash);
+    }
+    return hash % max;
+}
+
+// console.log(exampleHashFunction('abcedef', 100));
+
+/**
+ * COLLISIONS:
+ * When a hash table runs into a duplicate key it has two options:
+ *      1) Chaining:
+ *          Keys are kept in a linked list - on collision, simply add a new link list node
+ *          Linked lists can grow or shrink automatically
+ *
+ *      2) Open Addressing
+ *          Find a different slot to store the second value
+ *          Limitation is that tables can run out of space
+ *          A few different open addressing algorithms:
+ *              Linear probing -> (hash(key) + i) % max
+ *                  Issue w/ clustering which makes future probings slower
+ *
+ *              Quadratic probing -> (hash(key) + i^2) % max
+ *                  Reduces clustering by spreading keys out further
+ *                  Big jumps have their own problem: you can end up in an infinite loop looking for a key
+ *
+ *              Double hashing -> (hash1 + i * hash2) % table_size
+ *                  independent hash function
+ *
+ */
+
+class HashTable {
+    //put (k, v)
+
+    //get(k): v
+
+    //remove (k)
+}

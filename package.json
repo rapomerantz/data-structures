@@ -1,0 +1,22 @@
+{
+  "name": "data-structures-1",
+  "version": "1.0.0",
+  "description": "Data Structures",
+  "main": "arrays.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rapomerantz/data-structures-1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rapomerantz/data-structures-1/issues"
+  },
+  "homepage": "https://github.com/rapomerantz/data-structures-1#readme",
+  "dependencies": {
+    "node": "^14.8.0"
+  }
+}
