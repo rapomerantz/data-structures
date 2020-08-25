@@ -42,18 +42,17 @@
 //use a JS object to find the first non-repeated character in a string
 function findFirstNonRepeatedCharacter(string) {
     const hashMap = {};
-    let result = null;
-    let stringToArray = string.split('');
-    stringToArray.forEach((character) => {
+    let result = 0;
+    let characters = string.split('');
+    characters.forEach((character) => {
         if (character in hashMap) {
             hashMap[character] += 1;
         } else {
             hashMap[character] = 1;
         }
     });
-    const hashKeys = Object.keys(hashMap);
-    for (let i = 0; i < hashKeys.length; i ++) {
-        let key = hashKeys[i];
+    for (let i = 0; i < characters.length; i ++) {
+        let key = characters[i];
         if (key !== ' ' && hashMap[key] === 1) {
             result = key;
             break;
