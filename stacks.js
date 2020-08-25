@@ -117,13 +117,23 @@ class Expression {
                 if (this.stack.isEmpty()) {
                     return false;
                 }
-                this.stack.pop();
+                let top = this.stack.pop();
+                if (this.bracketsMatch(top, character)) {
+                    return false;
+                }
             }
         }
 
         return this.stack.isEmpty();
     }
+
+    bracketsMatch(left, right) {
+        return (right === ')' && left !== '(')
+            || (right === '>' && left !== '<')
+            || (right === ']' && left !== '[')
+            || (right === '}' && left !== '{');
+    }
 }
 
-let expression = new Expression('');
+let expression = new Expression('{({()})}');
 console.log(expression.isBalanced());
