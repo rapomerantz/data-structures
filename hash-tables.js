@@ -1,6 +1,5 @@
-import {LinkedList} from "./linked_lists";
+let LinkedList = require('./linked_lists');
 
-console.log(LinkedList);
 
 /**
  * aka dictionaries
@@ -81,16 +80,16 @@ function findFirstNonRepeatedCharacter(string) {
  *
  * Chaining
  */
-
-function exampleHashFunction (str, max) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-        hash = (hash << 5) + hash + str.charCodeAt(i);
-        hash = hash & hash;
-        hash = Math.abs(hash);
-    }
-    return hash % max;
-}
+//
+// function exampleHashFunction (key, max) {
+//     let hash = 0;
+//     for (let i = 0; i < key.length; i++) {
+//         hash = (hash << 5) + hash + key.charCodeAt(i);
+//         hash = hash & hash;
+//         hash = Math.abs(hash);
+//     }
+//     return hash % max;
+// }
 
 // console.log(exampleHashFunction('abcedef', 100));
 
@@ -117,10 +116,79 @@ function exampleHashFunction (str, max) {
  *
  */
 
+class Entry {
+    constructor(key, value) {
+        this.key = key;
+        this.value = value;
+    }
+}
+
 class HashTable {
+    constructor(size) {
+        this.size = size;
+        this.entries = [];
+        this.init();
+    }
+
+    init() {
+        for (let i = 0; i < this.size; i ++) {
+            this.entries.push(new LinkedList())
+        }
+    }
+
+    print() {
+        console.log(this.entries);
+    }
+
     //put (k, v)
+    put(key, value) {
+        let index = this.hashFunction(key, this.size);
+        let bucket = this.entries[index];
+        for (let i = 0; i < bucket.length; i ++) {
+            let entry = bucket[i];
+            if (entry.key === key) {
+                entry.value = value;
+                return;
+            }
+        }
+
+        bucket.addLast(new Entry(key, value));
+    }
 
     //get(k): v
+    get(key) {
+        let result = null;
+        let index = this.hashFunction(key, this.size);
+        let bucket = this.entries[index];
+        let node = bucket.findNodeByKey(key)
+
+        return result;
+    }
 
     //remove (k)
+
+    hashFunction (key, max) {
+        let hash = 0;
+        if (isNaN(key)) {
+            for (let i = 0; i < key.length; i++) {
+                hash = (hash << 5) + hash + key.charCodeAt(i);
+                hash = hash & hash;
+                hash = Math.abs(hash);
+            }
+        } else {
+            hash = key;
+        }
+        return hash % max;
+    }
 }
+
+const hashTable = new HashTable(5);
+hashTable.put(1, 'taco');
+hashTable.put(2, 'burrito');
+hashTable.put(3, 'tamale');
+hashTable.put(4, 'tostada');
+hashTable.put(55512341, 'pozole');
+
+hashTable.get(4);
+
+// hashTable.print();

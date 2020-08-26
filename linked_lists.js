@@ -150,6 +150,23 @@ class LinkedList {
         return -1;
     }
 
+    findNodeByKey(key) {
+        if ('key' in this.first.data) {
+            let index = 0;
+            let current = this.first;
+            while (current !== null) {
+                if (current.data.key === key) {
+                    return current.data;
+                }
+                current = current.next;
+                index += 1;
+            }
+
+        }
+
+        return -1;
+    }
+
     contains(dataToFind) {
         return this.indexOf(dataToFind) !== -1;
     }
@@ -268,22 +285,24 @@ class LinkedList {
     }
 }
 
-const list = new LinkedList();
+// const list = new LinkedList();
 // list.addLast(10);
 // list.addLast(20);
 // list.addLast(30);
 // list.addLast(40);
 // list.addLast(50);
 
-list.print();
-
-console.log('-------')
-
-console.log(list.getKthFromTheEnd(3));
-console.log(list.getKthFromTheEnd(2));
-console.log(list.getKthFromTheEnd(1));
-console.log(list.getKthFromTheEnd(0));
-console.log(list.getKthFromTheEnd(-1));
+// list.print();
+//
+// console.log('-------')
+//
+// console.log(list.getKthFromTheEnd(3));
+// console.log(list.getKthFromTheEnd(2));
+// console.log(list.getKthFromTheEnd(1));
+// console.log(list.getKthFromTheEnd(0));
+// console.log(list.getKthFromTheEnd(-1));
 
 // console.log(list.getKthFromTheEnd(40));
 // console.log(list.getKthFromTheEnd(-1));
+
+module.exports = LinkedList
