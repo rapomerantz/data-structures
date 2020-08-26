@@ -25,7 +25,7 @@ let LinkedList = require('./linked_lists');
  *          the values associated to the keys
  *      Hash function
  *          maps data of arbitrary size to a calculated index
-*       Storage buckets
+ *       Storage buckets
  *          the location that stores values to be accessed;
  *
  *
@@ -54,7 +54,7 @@ function findFirstNonRepeatedCharacter(string) {
             hashMap[character] = 1;
         }
     });
-    for (let i = 0; i < characters.length; i ++) {
+    for (let i = 0; i < characters.length; i++) {
         let key = characters[i];
         if (key !== ' ' && hashMap[key] === 1) {
             result = key;
@@ -64,6 +64,7 @@ function findFirstNonRepeatedCharacter(string) {
 
     return result;
 }
+
 // console.log(findFirstNonRepeatedCharacter('taco meat'));
 
 /**
@@ -123,6 +124,9 @@ class Entry {
     }
 }
 
+/**
+ * the collision solution for this hash table is CHAINING
+ */
 class HashTable {
     constructor(size) {
         this.size = size;
@@ -131,20 +135,15 @@ class HashTable {
     }
 
     init() {
-        for (let i = 0; i < this.size; i ++) {
+        for (let i = 0; i < this.size; i++) {
             this.entries.push(new LinkedList())
         }
     }
 
-    print() {
-        console.log(this.entries);
-    }
-
-    //put (k, v)
     put(key, value) {
-        let index = this.hashFunction(key, this.size);
+        let index = this.hash(key, this.size);
         let bucket = this.entries[index];
-        for (let i = 0; i < bucket.length; i ++) {
+        for (let i = 0; i < bucket.length; i++) {
             let entry = bucket[i];
             if (entry.key === key) {
                 entry.value = value;
@@ -155,29 +154,38 @@ class HashTable {
         bucket.addLast(new Entry(key, value));
     }
 
-    //get(k): v
     get(key) {
         let result = null;
-        let index = this.hashFunction(key, this.size);
+        let index = this.hash(key, this.size);
         let bucket = this.entries[index];
         let node = bucket.findNodeByKey(key)
+        if (node) {
+            result = node.value;
+        }
 
         return result;
     }
 
-    //remove (k)
+    remove(key) {
+        let index = this.hash(key, this.size);
+        let bucket = this.entries[index];
+        if (bucket !== null) {
+            return bucket.deleteNodeByKey(key);
+        }
 
-    hashFunction (key, max) {
-        let hash = 0;
+        return -1;
+    }
+
+    hash(key, max) {
+        let hash = key;
         if (isNaN(key)) {
             for (let i = 0; i < key.length; i++) {
                 hash = (hash << 5) + hash + key.charCodeAt(i);
                 hash = hash & hash;
                 hash = Math.abs(hash);
             }
-        } else {
-            hash = key;
         }
+
         return hash % max;
     }
 }
@@ -189,6 +197,6 @@ hashTable.put(3, 'tamale');
 hashTable.put(4, 'tostada');
 hashTable.put(55512341, 'pozole');
 
-hashTable.get(4);
+console.log(hashTable.get(55512341));
 
-// hashTable.print();
+hashTable.remove(55512341);

@@ -150,6 +150,12 @@ class LinkedList {
         return -1;
     }
 
+    /**
+     * for use w/ hash table
+     *
+     * @param key
+     * @returns {number|*}
+     */
     findNodeByKey(key) {
         if ('key' in this.first.data) {
             let index = 0;
@@ -158,6 +164,34 @@ class LinkedList {
                 if (current.data.key === key) {
                     return current.data;
                 }
+                current = current.next;
+                index += 1;
+            }
+
+        }
+
+        return -1;
+    }
+
+    /**
+     * for use w/ hash table
+     * @param key
+     * @returns {number}
+     */
+    deleteNodeByKey(key) {
+        if ('key' in this.first.data) {
+            let index = 0;
+            let current = this.first;
+            let previous = null;
+            while (current !== null) {
+                if (current.data.key === key) {
+                    let next = current.next;
+                    previous.next = next;
+                    current = null;
+
+                    return 1;
+                }
+                previous = current;
                 current = current.next;
                 index += 1;
             }
