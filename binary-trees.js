@@ -68,7 +68,7 @@ class BinaryTree {
         } else {
             let current = this.root;
             let keepLooking = true;
-            while (keepLooking) {
+            while (true) {
                 if (value < current.value) {
                     if (current.leftChild === null) {
                         keepLooking = false;
@@ -89,6 +89,23 @@ class BinaryTree {
             }
         }
     }
+
+    find (valueToFind) {
+        let valueExists = false;
+        let current = this.root;
+        while (current !== null) {
+            if (valueToFind < current.value) {
+                current = current.leftChild;
+            } else if (valueToFind > current.value) {
+                current = current.rightChild;
+            } else {
+                valueExists = true;
+                break;
+            }
+        }
+
+        return valueExists;
+    }
 }
 
 let binaryTree = new BinaryTree();
@@ -102,3 +119,6 @@ binaryTree.insert(8);
 binaryTree.insert(10);
 
 console.log(binaryTree)
+
+console.log(binaryTree.find(10));
+console.log(binaryTree.find(11));
