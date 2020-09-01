@@ -37,6 +37,45 @@
  *              Same as insert
  *
  *      NOTE: if a tree is not structured properly its speed will decrees
+ *
+ * EXAMPLE TREE
+ *              7
+ *             /  \
+ *           4     9
+ *         /  \   /  \
+ *       1    6  8   10
+ *
+ *
+ *  Tree Traversal
+ *      Two main ways to traverse a tree:
+ *
+ *          BREADTH FIRST (a.k.a. level order)
+ *              search across the entire level before proceeding
+ *              for example tree visit order:
+ *                  7, 4, 9, 1, 6, 8, 10
+ *
+ *                  20, 10, 30, 6, 14, 24, 3, 8, 26
+ *
+ *          DEPTH FIRST
+ *              Three methods:
+ *                  pre-order -- first root, then all the way down left, then right & back up:
+ *                      ROOT, left, right
+ *                          7, 4, 1, 6, 9, 8, 10
+ *                          20, 10, 6, 3, 8, 14, 30, 24, 26
+ *
+ *                  in-order -- all the way down to the left-most child, up to left most child root, then right of that root:
+ *                      left, ROOT, right
+ *                          1, 4, 6, 7, 8, 9, 10
+ *                              THIS WILL ALWAYS COME OUT IN ascending ORDER - to get descending order, do right ROOT left
+ *
+ *                              3, 6, 8, 10, 14, 20, 24, 26, 30
+ *
+ *                  post-order -- visits leaf nodes first!!!:
+ *                      left, right, ROOT
+ *                          1, 6, 4, 8, 10, 10, 7
+ *
+ *                          3, 8, 6, 14, 10, 26, 24, 30, 20
+ *
  **/
 
 class TreeNode {
@@ -53,13 +92,6 @@ class BinaryTree {
     constructor() {
         this.root = null;
     }
-    /**
-     *              10
-     *             /  \
-     *           6     13
-     *         /  \   /  \
-     *       6    [] 12   15
-     */
 
     insert(value) {
         let newNode = new TreeNode(value);
